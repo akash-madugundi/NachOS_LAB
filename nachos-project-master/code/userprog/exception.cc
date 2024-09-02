@@ -25,6 +25,7 @@
 #include "main.h"
 #include "syscall.h"
 #include "ksyscall.h"
+#include <time.h>
 //----------------------------------------------------------------------
 // ExceptionHandler
 // 	Entry point into the Nachos kernel.  Called when a user program
@@ -132,6 +133,9 @@ void handle_not_implemented_SC(int type) {
 }
 
 void handle_SC_Halt() {
+    clock_t curr_time = clock();
+    double running_time = ((double) (curr_time - kernel->currentThread->start_time)) / CLOCKS_PER_SEC;
+    printf("Running time: %f seconds.\n", running_time);
     DEBUG(dbgSys, "Shutdown, initiated by user program.\n");
     SysHalt();
     ASSERTNOTREACHED();
@@ -151,6 +155,59 @@ void handle_SC_Add() {
     /* Prepare Result */
     kernel->machine->WriteRegister(2, (int)result);
 
+    return move_program_counter();
+}
+
+void handle_SC_Mul() {
+    DEBUG(dbgSys, "Mul " << kernel->machine->ReadRegister(4) << " * "
+                         << kernel->machine->ReadRegister(5) << "\n");
+
+    /* Process SysAdd Systemcall*/
+    int result;
+    result = SysMul(
+        /* int op1 */ (int)kernel->machine->ReadRegister(4),
+        /* int op2 */ (int)kernel->machine->ReadRegister(5));
+
+    DEBUG(dbgSys, "Mul returning with " << result << "\n");
+    /* Prepare Result */
+    kernel->machine->WriteRegister(2, (int)result);
+
+    return move_program_counter();
+}
+
+void handle_SC_StartClock() {
+    DEBUG(dbgSys, "Clock Started\n");
+    clock_t start;
+    start = SysStartClock();
+    kernel->machine->WriteRegister(2, (int)start);   // error
+    return move_program_counter();
+}
+
+void handle_SC_StopClock() {
+    DEBUG(dbgSys, "Clock Stopped\n");
+    SysStopClock();
+    // clock_t end;
+    // SysStopClock();
+    // kernel->machine->WriteRegister(2, (int)end);   // error
+    // int end_time = kernel->machine->ReadRegister(2);
+    // double elapsed_time = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+    // printf("Elapsed time: %f seconds.\n", elapsed_time);
+    return move_program_counter();
+}
+
+#define MAX_READ_STRING_LENGTH 255
+void handle_SC_ReplString() {
+    int memPtr = kernel->machine->ReadRegister(4);  // read address of C-string
+    // char character = (char)kernel->machine->ReadRegister(4);  // retrieves character
+    char* buffer = stringUser2System(memPtr);
+    if (strlen(buffer) > MAX_READ_STRING_LENGTH) {  // avoid allocating large memory
+        DEBUG(dbgSys, "String length exceeds " << MAX_READ_STRING_LENGTH);
+        SysHalt();
+    }
+
+    buffer = SysReplString(buffer, strlen(buffer));
+    StringSys2User(buffer, memPtr);
+    delete[] buffer;
     return move_program_counter();
 }
 
@@ -421,6 +478,14 @@ void ExceptionHandler(ExceptionType which) {
                     return handle_SC_Halt();
                 case SC_Add:
                     return handle_SC_Add();
+		        case SC_Mul:
+		            return handle_SC_Mul();
+                case SC_ReplString:
+                    return handle_SC_ReplString();
+                case SC_StartClock:
+                    return handle_SC_StartClock();
+                case SC_StopClock:
+                    return handle_SC_StopClock();
                 case SC_ReadNum:
                     return handle_SC_ReadNum();
                 case SC_PrintNum:

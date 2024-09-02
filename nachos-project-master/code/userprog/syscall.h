@@ -48,6 +48,10 @@
 #define SC_Wait 52
 #define SC_Signal 53
 #define SC_GetPid 54
+#define SC_Mul 55
+#define SC_ReplString 56
+#define SC_StartClock 57
+#define SC_StopClock 58
 
 #ifndef IN_ASM
 
@@ -69,6 +73,13 @@ void Halt();
  */
 
 int Add(int op1, int op2);
+
+int Mul(int op1, int op2);
+
+void ReplString(char *buffer);
+
+void StartClock();
+void StopClock();
 
 int ReadNum();
 

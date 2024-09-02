@@ -10,8 +10,8 @@
 int main() {
     int result;
 
-    result = Add(42, 23);
-
+    // result = Add(42, 23);
+    PrintNum(Add(42, 23));
     Halt();
     /* not reached */
 }

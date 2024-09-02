@@ -43,6 +43,7 @@
 
 #include "machine.h"
 #include "addrspace.h"
+#include <time.h>
 
 // CPU register state to be saved on context switch.
 // The x86 needs to save only a few registers,
@@ -90,6 +91,8 @@ class Thread {
     int processID;
     int parrentID;
     int exitStatus;
+
+    clock_t start_time;
     void FreeSpace() {
         if (space != 0) delete space;
     }

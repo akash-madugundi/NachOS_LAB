@@ -15,10 +15,35 @@
 #include "synchconsole.h"
 #include "ksyscallhelper.h"
 #include <stdlib.h>
+#include <time.h>
 
 void SysHalt() { kernel->interrupt->Halt(); }
 
 int SysAdd(int op1, int op2) { return op1 + op2; }
+int SysMul(int op1, int op2) { return op1 * op2; }
+char* SysReplString(char* buffer, int length) {
+    for (int i = 0; i < length; i++) {
+        if(buffer[i] == ' '){
+            buffer[i] = '_';
+        }
+    }
+    return buffer;
+}
+
+clock_t start_time;
+clock_t SysStartClock() { start_time = clock(); return start_time; }
+void SysStopClock() { 
+    clock_t end_time = clock();
+    double elapsed_time = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("Elapsed time: %f seconds.\n", elapsed_time);
+    // return end_time;
+}
+
+// void SysSleep(int time) { 
+//     IntStatus oldLevel = kernel->interrupt->SetLevel(IntOff);
+//     kernel->currentThread->Sleep(time);
+//     (void) kernel->interrupt->SetLevel(oldLevel);
+// }
 
 int SysReadNum() {
     readUntilBlank();
