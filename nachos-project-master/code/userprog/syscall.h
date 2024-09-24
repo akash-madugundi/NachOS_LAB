@@ -52,6 +52,7 @@
 #define SC_ReplString 56
 #define SC_StartClock 57
 #define SC_StopClock 58
+#define SC_Sleep 59
 
 #ifndef IN_ASM
 
@@ -80,6 +81,8 @@ void ReplString(char *buffer);
 
 void StartClock();
 void StopClock();
+
+void Sleep(int time);
 
 int ReadNum();
 

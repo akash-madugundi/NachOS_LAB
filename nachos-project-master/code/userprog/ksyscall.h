@@ -39,11 +39,13 @@ void SysStopClock() {
     // return end_time;
 }
 
-// void SysSleep(int time) { 
-//     IntStatus oldLevel = kernel->interrupt->SetLevel(IntOff);
-//     kernel->currentThread->Sleep(time);
-//     (void) kernel->interrupt->SetLevel(oldLevel);
-// }
+void SysSleep(int time) {
+    kernel->alarm->WaitUntil(time);
+    auto currentState = kernel->interrupt->getLevel();
+    kernel->interrupt->SetLevel(IntOff);
+    kernel->currentThread->Sleep(false);
+    kernel->interrupt->SetLevel(currentState);
+}
 
 int SysReadNum() {
     readUntilBlank();

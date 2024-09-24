@@ -211,6 +211,17 @@ void handle_SC_ReplString() {
     return move_program_counter();
 }
 
+void handle_SC_Sleep() {
+    int sleepTime = kernel->machine->ReadRegister(4);
+    DEBUG(dbgSys, "Sleeping for " << sleepTime << " ticks\n");
+    SysSleep(sleepTime*500000);
+    // SysSleep((int)kernel->machine->ReadRegister(4));
+    // kernel->alarm->waituntil
+    // alarm.cc callbak waituntil
+    // kernel->machine->WriteRegister(2, (int)start);   // error
+    return move_program_counter();
+}
+
 void handle_SC_ReadNum() {
     int result = SysReadNum();
     kernel->machine->WriteRegister(2, result);
@@ -486,6 +497,8 @@ void ExceptionHandler(ExceptionType which) {
                     return handle_SC_StartClock();
                 case SC_StopClock:
                     return handle_SC_StopClock();
+                case SC_Sleep:
+                    return handle_SC_Sleep();
                 case SC_ReadNum:
                     return handle_SC_ReadNum();
                 case SC_PrintNum:
