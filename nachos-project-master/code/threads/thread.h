@@ -93,6 +93,7 @@ class Thread {
     int exitStatus;
 
     clock_t start_time;
+    int _priority = 1;
     void FreeSpace() {
         if (space != 0) delete space;
     }

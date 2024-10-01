@@ -11,7 +11,7 @@ int main() {
     int i;
     // while(1){
         for(i=0; i<100; i++){
-            PrintString("In prog: [num_io]\n");
+            PrintString("In prog: [num_io2]\n");
         }
     // }
     // PrintNum(ReadNum());
