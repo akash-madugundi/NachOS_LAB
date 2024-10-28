@@ -7,11 +7,11 @@
 #define stdout 1
 
 int main() {
-    int pid, pid2;
+    int pid, pid2, pid3;
     int i;
     pid = Exec("../test/num_io", 5);
     pid2 = Exec("../test/num_io2", 7);
-    
+    pid2 = Exec("../test/num_io3", 6);
     if (pid < 0) {
         Write("Exec failed: ", 14, stdout);
         PrintNum(pid);

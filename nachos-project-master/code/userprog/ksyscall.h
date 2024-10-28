@@ -24,7 +24,7 @@ int SysMul(int op1, int op2) { return op1 * op2; }
 char* SysReplString(char* buffer, int length) {
     for (int i = 0; i < length; i++) {
         if(buffer[i] == ' '){
-            buffer[i] = '_';
+            buffer[i] = '#';
         }
     }
     return buffer;

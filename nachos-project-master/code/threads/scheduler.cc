@@ -120,6 +120,8 @@ void Scheduler::Run(Thread *nextThread, bool finishing) {
     DEBUG(dbgThread, "Switching from: " << oldThread->getName()
                                         << " to: " << nextThread->getName());
 
+    // std::cout << "Switching from: " << oldThread->getName() << " to: " << nextThread->getName() << std::endl;
+
     // This is a machine-dependent assembly language routine defined
     // in switch.s.  You may have to think
     // a bit to figure out what happens after this, both from the point
