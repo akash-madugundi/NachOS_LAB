@@ -47,6 +47,10 @@ void SysSleep(int time) {
     kernel->interrupt->SetLevel(currentState);
 }
 
+void SysWait2(int waitPid) {
+    return kernel->pTab->Wait2(waitPid);
+}
+
 int SysReadNum() {
     readUntilBlank();
 

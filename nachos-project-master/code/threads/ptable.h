@@ -16,6 +16,7 @@ class PTable {
    public:
     PTable(int size);
     ~PTable();
+    void Wait2(int waitPid);
     int ExecUpdate(char* name, int priority);
     int ExitUpdate(int ec);
     int JoinUpdate(int id);

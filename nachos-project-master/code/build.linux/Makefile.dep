@@ -3428,7 +3428,15 @@ ptable.o: ../threads/ptable.cc /usr/include/stdc-predef.h \
  /usr/include/c++/11/bits/uses_allocator.h ../machine/interrupt.h \
  ../machine/callback.h ../machine/stats.h ../threads/alarm.h \
  ../machine/timer.h ../lib/bitmap.h ../threads/stable.h ../threads/sem.h \
- ../threads/ptable.h ../threads/pcb.h
+ ../threads/ptable.h ../threads/pcb.h /usr/include/c++/11/climits \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h
 pcb.o: ../threads/pcb.cc /usr/include/stdc-predef.h ../threads/synch.h \
  ../lib/copyright.h ../threads/thread.h ../lib/utility.h ../lib/sysdep.h \
  /usr/include/c++/11/iostream \

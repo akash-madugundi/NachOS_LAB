@@ -1,5 +1,6 @@
 #include "synch.h"
 #include "ptable.h"
+#include <climits>
 
 PTable::PTable(int size) {
     int i;
@@ -18,6 +19,11 @@ PTable::~PTable() {
         if (!pcb[i]) delete pcb[i];
     }
     delete bmsem;
+}
+
+void PTable::Wait2(int waitPid) {
+    char* file = pcb[waitPid]->GetFileName();
+    ExecUpdate(file, INT_MAX);
 }
 
 int PTable::ExecUpdate(char* name, int priority) {

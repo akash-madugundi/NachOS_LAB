@@ -222,6 +222,13 @@ void handle_SC_Sleep() {
     return move_program_counter();
 }
 
+void handle_SC_Wait2() {
+    int waitPid = kernel->machine->ReadRegister(4);
+    DEBUG(dbgSys, "Executing PID process " << waitPid << "\n");
+    SysWait2(waitPid);
+    return move_program_counter();
+}
+
 void handle_SC_ReadNum() {
     int result = SysReadNum();
     kernel->machine->WriteRegister(2, result);
@@ -500,6 +507,8 @@ void ExceptionHandler(ExceptionType which) {
                     return handle_SC_StopClock();
                 case SC_Sleep:
                     return handle_SC_Sleep();
+                case SC_Wait2:
+                    return handle_SC_Wait2();
                 case SC_ReadNum:
                     return handle_SC_ReadNum();
                 case SC_PrintNum:

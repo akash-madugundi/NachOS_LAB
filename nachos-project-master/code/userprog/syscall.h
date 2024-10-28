@@ -53,6 +53,7 @@
 #define SC_StartClock 57
 #define SC_StopClock 58
 #define SC_Sleep 59
+#define SC_Wait2 60
 
 #ifndef IN_ASM
 
@@ -83,6 +84,8 @@ void StartClock();
 void StopClock();
 
 void Sleep(int time);
+
+void Wait2(int pid);
 
 int ReadNum();
 
